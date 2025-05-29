@@ -23,6 +23,16 @@ export default function CommandesTable() {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Supprimer cette commande ?")) return;
+    const res = await fetch(`/api/commandes/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      setCommandes((commandes) => commandes.filter((c) => c._id !== id));
+    } else {
+      alert("Erreur lors de la suppression");
+    }
+  };
+
   if (loading) {
     return (
       <div className="text-center py-12 text-[#a84b2b] text-lg">
@@ -145,7 +155,7 @@ export default function CommandesTable() {
                       </button>
                       <button
                         className="px-3 py-1 rounded-full bg-[#fff0f0] text-[#d96c2c] font-bold border border-[#d96c2c] hover:bg-[#d96c2c] hover:text-white transition"
-                        onClick={() => alert("Suppression à venir !")}
+                        onClick={() => handleDelete(commande._id)}
                       >
                         Supprimer
                       </button>
