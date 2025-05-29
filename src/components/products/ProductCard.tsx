@@ -36,7 +36,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="flex justify-center -mt-6 z-10 mb-2">
         {cartItem ? (
-          <div className="flex items-center bg-[#d34f26] rounded-full shadow-md px-6 py-2 gap-2">
+          <div className="flex items-center bg-[#a84b2b] rounded-full shadow-md px-6 py-2 gap-2">
             <Button
               variant="ghost"
               size="icon"

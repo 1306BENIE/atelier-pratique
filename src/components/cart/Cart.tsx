@@ -7,6 +7,8 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import React from "react";
 import type { CartItem as CartItemType } from "@/types";
+import OrderConfirmModal from "./OrderConfirmModal";
+import { useRouter } from "next/navigation";
 
 interface CartProps {
   isOpen: boolean;
@@ -88,7 +90,13 @@ const CartItem = ({
   );
 };
 
-const CartFooter = ({ total }: { total: number }) => {
+const CartFooter = ({
+  total,
+  onConfirmOrder,
+}: {
+  total: number;
+  onConfirmOrder: () => void;
+}) => {
   return (
     <div className="mt-6 space-y-4">
       <div className="flex justify-between border-t pt-4">
@@ -118,7 +126,10 @@ const CartFooter = ({ total }: { total: number }) => {
         <span className="font-semibold">carbon-neutral</span>
         <span>delivery</span>
       </div>
-      <Button className="w-full bg-[#a84b2b] hover:bg-[#7a2e16] text-white text-base font-bold py-5 px-2 rounded-xl shadow-lg transition">
+      <Button
+        className="flex justify-center items-center bg-[#a84b2b] hover:bg-[#7a2e16] text-white text-base py-6 px-16 rounded-full shadow-lg transition mx-auto"
+        onClick={onConfirmOrder}
+      >
         Confirm Order
       </Button>
     </div>
@@ -127,10 +138,19 @@ const CartFooter = ({ total }: { total: number }) => {
 
 export default function Cart({ isOpen, onClose }: CartProps) {
   const { cart, removeFromCart, updateQuantity } = useCart();
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const router = useRouter();
 
   // Affichage overlay mobile
   const isMobile = typeof window !== "undefined" && window.innerWidth < 1024;
   if (!isOpen && isMobile) return null;
+
+  const handleConfirmOrder = () => setModalOpen(true);
+  const handleCancel = () => setModalOpen(false);
+  const handleSave = () => {
+    setModalOpen(false);
+    router.push("/commandes");
+  };
 
   return (
     <div
@@ -173,7 +193,16 @@ export default function Cart({ isOpen, onClose }: CartProps) {
         </AnimatePresence>
       </div>
 
-      {cart.items.length > 0 && <CartFooter total={cart.total} />}
+      {cart.items.length > 0 && (
+        <>
+          <CartFooter total={cart.total} onConfirmOrder={handleConfirmOrder} />
+          <OrderConfirmModal
+            open={modalOpen}
+            onCancel={handleCancel}
+            onConfirm={handleSave}
+          />
+        </>
+      )}
     </div>
   );
 }
