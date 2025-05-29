@@ -137,8 +137,9 @@ const CartFooter = ({
 };
 
 export default function Cart({ isOpen, onClose }: CartProps) {
-  const { cart, removeFromCart, updateQuantity } = useCart();
+  const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
   // Affichage overlay mobile
@@ -147,9 +148,30 @@ export default function Cart({ isOpen, onClose }: CartProps) {
 
   const handleConfirmOrder = () => setModalOpen(true);
   const handleCancel = () => setModalOpen(false);
-  const handleSave = () => {
-    setModalOpen(false);
-    router.push("/commandes");
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/commandes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cart.items.map((item) => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          total: cart.total,
+        }),
+      });
+      if (!res.ok) throw new Error("Erreur lors de l'enregistrement");
+      clearCart();
+      setModalOpen(false);
+      router.push("/commandes");
+    } catch (e) {
+      alert("Erreur lors de l'enregistrement de la commande");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
