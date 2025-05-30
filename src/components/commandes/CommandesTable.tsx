@@ -35,8 +35,39 @@ export default function CommandesTable() {
 
   if (loading) {
     return (
-      <div className="text-center py-12 text-[#a84b2b] text-lg">
-        Chargement...
+      <div className="flex flex-col items-center w-full py-8">
+        <div className="w-full max-w-5xl overflow-x-auto rounded-2xl shadow-lg bg-white border-2 border-[#f3e9e2] my-6">
+          <table className="min-w-full text-sm text-center">
+            <thead>
+              <tr className="bg-[#f3e9e2] text-[#a84b2b]">
+                <th className="py-4 px-2 font-bold">Date</th>
+                <th className="py-4 px-2 font-bold">Articles</th>
+                <th className="py-4 px-2 font-bold">Total</th>
+                <th className="py-4 px-2 font-bold">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...Array(4)].map((_, i) => (
+                <tr key={i} className="animate-pulse">
+                  <td className="py-4 px-2">
+                    <div className="mx-auto h-4 w-20 bg-[#e5ded7] rounded" />
+                  </td>
+                  <td className="py-4 px-2">
+                    <div className="mx-auto h-4 w-10 bg-[#f3e9e2] rounded-full" />
+                  </td>
+                  <td className="py-4 px-2">
+                    <div className="mx-auto h-5 w-16 bg-[#d96c2c]/30 rounded-full" />
+                  </td>
+                  <td className="py-4 px-2 flex items-center justify-center gap-2">
+                    <div className="w-8 h-8 bg-[#e5ded7] rounded-full" />
+                    <div className="w-20 h-8 bg-[#f3e9e2] rounded-full" />
+                    <div className="w-20 h-8 bg-[#fff0f0] rounded-full" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

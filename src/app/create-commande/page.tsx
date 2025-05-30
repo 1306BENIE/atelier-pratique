@@ -14,7 +14,7 @@ export default function CreateCommandePage() {
       {/* Colonne principale : Grille de produits */}
       <div className="flex-1 min-w-0">
         <header className="mb-8">
-          <h1 className="text-4xl font-extrabold text-[#3d2314] mb-8">
+          <h1 className="text-4xl font-extrabold text-[#3d2314] mb-8 ">
             Desserts
           </h1>
         </header>

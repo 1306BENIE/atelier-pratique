@@ -29,8 +29,18 @@ export default function ProductGrid() {
 
   if (isLoading) {
     return (
-      <div className="flex h-64 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 xl:gap-12">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className="bg-white rounded-2xl shadow-lg border border-[#f3e9e2] p-4 animate-pulse flex flex-col gap-4"
+          >
+            <div className="aspect-square w-full bg-[#f3e9e2] rounded-2xl" />
+            <div className="h-4 w-2/3 bg-[#e5ded7] rounded" />
+            <div className="h-3 w-1/2 bg-[#e5ded7] rounded" />
+            <div className="h-6 w-1/3 bg-[#d96c2c]/30 rounded-full mt-2" />
+          </div>
+        ))}
       </div>
     );
   }

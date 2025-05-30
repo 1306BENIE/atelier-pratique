@@ -222,6 +222,9 @@ export default function Cart({ isOpen, onClose }: CartProps) {
             open={modalOpen}
             onCancel={handleCancel}
             onConfirm={handleSave}
+            cart={cart.items}
+            total={cart.total}
+            loading={loading}
           />
         </>
       )}
